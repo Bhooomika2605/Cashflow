@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CashFlow - Smart Kirana Store Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .input-section {
+            grid-column: 1 / -1;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #transactionInput {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        #transactionInput:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-voice {
+            background: #f093fb;
+            color: white;
+        }
+
+        .btn-voice:hover {
+            background: #d67ae5;
+        }
+
+        .example-queries {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .example-tag {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .example-tag:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .alerts-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid;
+        }
+
+        .alert-critical {
+            background: #fee;
+            border-color: #f44336;
+        }
+
+        .alert-high {
+            background: #fff3cd;
+            border-color: #ff9800;
+        }
+
+        .alert-medium {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .alert-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-sale {
+            background: #4caf50;
+            color: white;
+        }
+
+        .badge-purchase {
+            background: #ff9800;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏪 CashFlow</h1>
+            <p class="tagline">AI-Powered Smart Kirana Store Management</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- Input Section -->
+            <div class="card input-section">
+                <h2>📝 Transaction Input</h2>
+                <div class="input-container">
+                    <input type="text" id="transactionInput" placeholder="Type or speak: 'Sold 5 kg rice for Rs. 200' or 'Bought 10 packets biscuits Rs. 500'">
+                    <button class="btn-voice" onclick="startVoiceInput()">🎤 Voice</button>
+                    <button class="btn-primary" onclick="submitTransaction()">Submit</button>
+                </div>
+                <p style="margin-bottom: 10px; color: #666;">Try these examples:</p>
+                <div class="example-queries">
+                    <span class="example-tag" onclick="fillExample('Sold 5 kg rice for Rs. 250')">Sold 5 kg rice for Rs. 250</span>
+                    <span class="example-tag" onclick="fillExample('Bought 20 kg wheat from supplier Rs. 800')">Bought 20 kg wheat Rs. 800</span>
+                    <span class="example-tag" onclick="fillExample('Customer bought 2 kg sugar for Rs. 100')">Customer bought 2 kg sugar Rs. 100</span>
+                    <span class="example-tag" onclick="fillExample('Sold 1 liter oil Rs. 150')">Sold 1 liter oil Rs. 150</span>
+                </div>
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Processing transaction...</p>
+                </div>
+            </div>
+
+            <!-- Alerts Section -->
+            <div class="card">
+                <h2>🚨 AI Alerts & Insights</h2>
+                <div class="alerts-container" id="alertsContainer">
+                    <p style="color: #999; text-align: center;">No alerts yet. Submit a transaction to see AI insights.</p>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="card">
+                <h2>📊 Today's Summary</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalSales">₹0</div>
+                        <div class="stat-label">Total Sales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalPurchases">₹0</div>
+                        <div class="stat-label">Total Purchases</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="transactionCount">0</div>
+                        <div class="stat-label">Transactions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="card">
+                <h2>📜 Recent Transactions</h2>
+                <div style="overflow-x: auto;">
+                    <table id="transactionsTable">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Item</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: #999;">No transactions yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Inventory Status -->
+            <div class="card">
+                <h2>📦 Inventory Status</h2>
+                <div style="overflow-x: auto;">
+                    <table id="inventoryTable">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                                <th>Reorder Level</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: #999;">No inventory data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load dashboard data on page load
+        window.onload = function() {
+            loadDashboard();
+        };
+
+        function fillExample(text) {
+            document.getElementById('transactionInput').value = text;
+        }
+
+        function startVoiceInput() {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert('Voice recognition not supported in your browser. Please use Chrome.');
+                return;
+            }
+
+            const recognition = new webkitSpeechRecognition();
+            recognition.lang = 'en-IN';
+            recognition.continuous = false;
+
+            recognition.onstart = function() {
+                document.querySelector('.btn-voice').textContent = '🎤 Listening...';
+                document.querySelector('.btn-voice').style.background = '#ff4444';
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('transactionInput').value = transcript;
+            };
+
+            recognition.onerror = function(event) {
+                alert('Voice recognition error: ' + event.error);
+            };
+
+            recognition.onend = function() {
+                document.querySelector('.btn-voice').textContent = '🎤 Voice';
+                document.querySelector('.btn-voice').style.background = '#f093fb';
+            };
+
+            recognition.start();
+        }
+
+        async function submitTransaction() {
+            const input = document.getElementById('transactionInput').value.trim();
+            
+            if (!input) {
+                alert('Please enter a transaction');
+                return;
+            }
+
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const response = await fetch('/api/process-input', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: input })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayAlerts(data.alerts);
+                    loadDashboard();
+                    document.getElementById('transactionInput').value = '';
+                } else {
+                    alert('Error processing transaction: ' + data.error);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function displayAlerts(alerts) {
+            const container = document.getElementById('alertsContainer');
+            
+            if (alerts.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center;">All clear! No alerts.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            alerts.forEach(alert => {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${alert.severity}`;
+                alertDiv.innerHTML = `
+                    <div class="alert-title">${getAlertIcon(alert.type)} ${alert.type.toUpperCase()}</div>
+                    <div>${alert.message}</div>
+                `;
+                container.appendChild(alertDiv);
+            });
+        }
+
+        function getAlertIcon(type) {
+            const icons = {
+                'cash_flow': '💰',
+                'inventory': '📦',
+                'fraud': '⚠️'
+            };
+            return icons[type] || '🔔';
+        }
+
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/dashboard');
+                const data = await response.json();
+
+                // Update stats
+                document.getElementById('totalSales').textContent = '₹' + (data.stats.total_sales || 0);
+                document.getElementById('totalPurchases').textContent = '₹' + (data.stats.total_purchases || 0);
+                document.getElementById('transactionCount').textContent = data.stats.transaction_count || 0;
+
+                // Update transactions table
+                const tbody = document.getElementById('transactionsBody');
+                if (data.transactions.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">No transactions yet</td></tr>';
+                } else {
+                    tbody.innerHTML = data.transactions.map(t => `
+                        <tr>
+                            <td>${new Date(t.timestamp).toLocaleTimeString()}</td>
+                            <td>${t.item}</td>
+                            <td>₹${t.amount}</td>
+                            <td><span class="badge badge-${t.type}">${t.type}</span></td>
+                        </tr>
+                    `).join('');
+                }
+
+                // Update inventory table
+                const invBody = document.getElementById('inventoryBody');
+                if (data.inventory.length === 0) {
+                    invBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">No inventory data</td></tr>';
+                } else {
+                    invBody.innerHTML = data.inventory.map(item => {
+                        const status = item.quantity <= item.reorder_level ? '⚠️ Low' : '✅ OK';
+                        return `
+                            <tr>
+                                <td>${item.item_name}</td>
+                                <td>${item.quantity}</td>
+                                <td>${item.reorder_level}</td>
+                                <td>${status}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        // Refresh dashboard every 30 seconds
+        setInterval(loadDashboard, 30000);
+    </script>
+</body>
+</html>
