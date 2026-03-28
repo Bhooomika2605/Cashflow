@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+.env
+venv/
+env/
+.venv/
+
+# Database (auto-created at runtime)
+*.db
+
+# Uploads
+uploads/
+
+# OS
+.DS_Store
+Thumbs.db
