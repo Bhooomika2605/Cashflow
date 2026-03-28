@@ -27,6 +27,7 @@
             text-align: center;
             color: white;
             margin-bottom: 30px;
+            position: relative;
         }
 
         h1 {
@@ -39,6 +40,141 @@
             opacity: 0.9;
         }
 
+        /* ===== NOTIFICATION BELL ===== */
+        .bell-wrapper {
+            position: absolute;
+            top: 5px;
+            right: 0;
+        }
+
+        .bell-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.5);
+            color: white;
+            font-size: 22px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            padding: 0;
+        }
+
+        .bell-btn:hover {
+            background: rgba(255,255,255,0.35);
+            transform: translateY(-2px);
+        }
+
+        .bell-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #f44336;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 50%;
+            min-width: 18px;
+            height: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 0 3px;
+        }
+
+        .bell-badge.visible {
+            display: flex;
+        }
+
+        /* ===== NOTIFICATION DROPDOWN ===== */
+        .notification-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 340px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+        }
+
+        .notification-dropdown.open {
+            display: block;
+        }
+
+        .notif-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notif-header h3 {
+            color: #333;
+            font-size: 1em;
+        }
+
+        .notif-read-all {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 0;
+            font-weight: 600;
+        }
+
+        .notif-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .notif-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .notif-item:hover {
+            background: #f9f9f9;
+        }
+
+        .notif-item.unread {
+            background: #f0f4ff;
+            border-left: 3px solid #667eea;
+        }
+
+        .notif-item-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .notif-item-msg {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .notif-item-time {
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 4px;
+        }
+
+        .notif-empty {
+            padding: 20px;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+        }
+
+        /* ===== MAIN GRID ===== */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -109,6 +245,28 @@
 
         .btn-voice:hover {
             background: #d67ae5;
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+            padding: 8px 14px;
+            font-size: 13px;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        .btn-secondary {
+            background: #eee;
+            color: #333;
+            padding: 8px 14px;
+            font-size: 13px;
+        }
+
+        .btn-secondary:hover {
+            background: #ddd;
         }
 
         .example-queries {
@@ -244,6 +402,176 @@
             color: white;
         }
 
+        /* ===== REMINDERS SECTION ===== */
+        .reminders-section {
+            grid-column: 1 / -1;
+        }
+
+        .reminders-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .reminder-rows {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .reminder-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            margin-bottom: 10px;
+            transition: box-shadow 0.2s;
+        }
+
+        .reminder-row:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .reminder-row.inactive {
+            opacity: 0.5;
+        }
+
+        .reminder-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .reminder-body {
+            flex: 1;
+        }
+
+        .reminder-title {
+            font-weight: bold;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .reminder-meta {
+            font-size: 13px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        .reminder-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            width: 520px;
+            max-width: 95vw;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .conditional-fields {
+            display: none;
+        }
+
+        .conditional-fields.visible {
+            display: block;
+        }
+
+        .channels-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        .channel-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .channel-checkbox input {
+            width: auto;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
         @media (max-width: 768px) {
             .main-grid {
                 grid-template-columns: 1fr;
@@ -251,6 +579,20 @@
 
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .bell-wrapper {
+                top: 0;
+                right: 0;
+            }
+
+            .notification-dropdown {
+                width: 95vw;
+                right: -10px;
             }
         }
     </style>
@@ -260,6 +602,23 @@
         <header>
             <h1>🏪 CashFlow</h1>
             <p class="tagline">AI-Powered Smart Kirana Store Management</p>
+
+            <!-- Notification Bell -->
+            <div class="bell-wrapper">
+                <button class="bell-btn" onclick="toggleNotifications()" title="Notifications">
+                    🔔
+                    <span class="bell-badge" id="bellBadge">0</span>
+                </button>
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <div class="notif-header">
+                        <h3>🔔 Notifications</h3>
+                        <button class="notif-read-all" onclick="markAllRead()">Mark all read</button>
+                    </div>
+                    <div class="notif-list" id="notifList">
+                        <div class="notif-empty">No notifications yet</div>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <div class="main-grid">
@@ -354,15 +713,138 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Reminders Section -->
+            <div class="card reminders-section">
+                <div class="reminders-toolbar">
+                    <h2 style="margin-bottom:0;">⏰ Reminders</h2>
+                    <button class="btn-primary" style="padding:10px 20px;font-size:14px;" onclick="openReminderModal()">+ New Reminder</button>
+                </div>
+                <div class="reminder-rows" id="reminderRows">
+                    <p style="color:#999;text-align:center;">No reminders yet. Click "New Reminder" to add one.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reminder Create/Edit Modal -->
+    <div class="modal-overlay" id="reminderModal">
+        <div class="modal">
+            <h3 id="modalTitle">⏰ New Reminder</h3>
+
+            <input type="hidden" id="editReminderId">
+
+            <div class="form-group">
+                <label>Title *</label>
+                <input type="text" id="rTitle" placeholder="e.g. Pay supplier, Check stock...">
+            </div>
+
+            <div class="form-group">
+                <label>Message *</label>
+                <textarea id="rMessage" placeholder="Detailed reminder message..."></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Reminder Type *</label>
+                    <select id="rType" onchange="onTypeChange()">
+                        <option value="one_time">One-Time</option>
+                        <option value="recurring">Recurring</option>
+                        <option value="threshold">Threshold Alert</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Timezone</label>
+                    <select id="rTimezone">
+                        <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
+                        <option value="UTC">UTC</option>
+                        <option value="America/New_York">America/New_York (ET)</option>
+                        <option value="Europe/London">Europe/London (GMT)</option>
+                        <option value="Asia/Dubai">Asia/Dubai (GST)</option>
+                        <option value="Asia/Singapore">Asia/Singapore (SGT)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- One-time fields -->
+            <div class="conditional-fields visible" id="fieldOneTime">
+                <div class="form-group">
+                    <label>Trigger Date & Time</label>
+                    <input type="datetime-local" id="rTriggerDatetime">
+                </div>
+            </div>
+
+            <!-- Recurring fields -->
+            <div class="conditional-fields" id="fieldRecurring">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Frequency</label>
+                        <select id="rFrequency" onchange="onFrequencyChange()">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Trigger Time (HH:MM)</label>
+                        <input type="time" id="rTriggerTime">
+                    </div>
+                </div>
+                <div class="form-group" id="fieldTriggerDay" style="display:none;">
+                    <label id="triggerDayLabel">Day of Week (0=Mon … 6=Sun)</label>
+                    <input type="number" id="rTriggerDay" min="0" max="31" placeholder="0">
+                </div>
+            </div>
+
+            <!-- Threshold fields -->
+            <div class="conditional-fields" id="fieldThreshold">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Threshold Type</label>
+                        <select id="rThresholdType">
+                            <option value="cash_flow">Cash Flow (daily avg below value)</option>
+                            <option value="inventory">Inventory (any item low)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Threshold Value (₹, for cash_flow)</label>
+                        <input type="number" id="rThresholdValue" placeholder="e.g. 0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification channels -->
+            <div class="form-group">
+                <label>Notification Channels</label>
+                <div class="channels-group">
+                    <label class="channel-checkbox">
+                        <input type="checkbox" id="chIn_app" checked> In-App
+                    </label>
+                    <label class="channel-checkbox">
+                        <input type="checkbox" id="chEmail"> Email (configure via env)
+                    </label>
+                    <label class="channel-checkbox">
+                        <input type="checkbox" id="chSms"> SMS (configure via env)
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeReminderModal()">Cancel</button>
+                <button class="btn-primary" onclick="saveReminder()">Save Reminder</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Load dashboard data on page load
+        // ===== INIT =====
         window.onload = function() {
             loadDashboard();
+            loadReminders();
+            refreshUnreadCount();
         };
 
+        // ===== TRANSACTION HELPERS =====
         function fillExample(text) {
             document.getElementById('transactionInput').value = text;
         }
@@ -412,9 +894,7 @@
             try {
                 const response = await fetch('/api/process-input', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ text: input })
                 });
 
@@ -455,11 +935,7 @@
         }
 
         function getAlertIcon(type) {
-            const icons = {
-                'cash_flow': '💰',
-                'inventory': '📦',
-                'fraud': '⚠️'
-            };
+            const icons = { 'cash_flow': '💰', 'inventory': '📦', 'fraud': '⚠️' };
             return icons[type] || '🔔';
         }
 
@@ -468,12 +944,10 @@
                 const response = await fetch('/api/dashboard');
                 const data = await response.json();
 
-                // Update stats
                 document.getElementById('totalSales').textContent = '₹' + (data.stats.total_sales || 0);
                 document.getElementById('totalPurchases').textContent = '₹' + (data.stats.total_purchases || 0);
                 document.getElementById('transactionCount').textContent = data.stats.transaction_count || 0;
 
-                // Update transactions table
                 const tbody = document.getElementById('transactionsBody');
                 if (data.transactions.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">No transactions yet</td></tr>';
@@ -488,7 +962,6 @@
                     `).join('');
                 }
 
-                // Update inventory table
                 const invBody = document.getElementById('inventoryBody');
                 if (data.inventory.length === 0) {
                     invBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">No inventory data</td></tr>';
@@ -510,8 +983,302 @@
             }
         }
 
-        // Refresh dashboard every 30 seconds
-        setInterval(loadDashboard, 30000);
+        // ===== NOTIFICATIONS =====
+        async function refreshUnreadCount() {
+            try {
+                const r = await fetch('/api/notifications/unread-count');
+                const data = await r.json();
+                const badge = document.getElementById('bellBadge');
+                if (data.unread_count > 0) {
+                    badge.textContent = data.unread_count;
+                    badge.classList.add('visible');
+                } else {
+                    badge.classList.remove('visible');
+                }
+            } catch (e) { /* ignore */ }
+        }
+
+        async function toggleNotifications() {
+            const dropdown = document.getElementById('notificationDropdown');
+            const isOpen = dropdown.classList.contains('open');
+            if (!isOpen) {
+                await loadNotifications();
+            }
+            dropdown.classList.toggle('open');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const wrapper = document.querySelector('.bell-wrapper');
+            if (!wrapper.contains(e.target)) {
+                document.getElementById('notificationDropdown').classList.remove('open');
+            }
+        });
+
+        async function loadNotifications() {
+            try {
+                const r = await fetch('/api/notifications');
+                const data = await r.json();
+                const list = document.getElementById('notifList');
+
+                if (data.notifications.length === 0) {
+                    list.innerHTML = '<div class="notif-empty">No notifications yet</div>';
+                    return;
+                }
+
+                list.innerHTML = data.notifications.map(n => `
+                    <div class="notif-item ${n.status}" onclick="markRead(${n.id}, this)">
+                        <div class="notif-item-title">${escHtml(n.title)}</div>
+                        <div class="notif-item-msg">${escHtml(n.message)}</div>
+                        <div class="notif-item-time">${timeAgo(n.created_at)}</div>
+                    </div>
+                `).join('');
+            } catch (e) { console.error(e); }
+        }
+
+        async function markRead(id, el) {
+            try {
+                await fetch(`/api/notifications/${id}/read`, { method: 'PUT' });
+                el.classList.remove('unread');
+                refreshUnreadCount();
+            } catch (e) { /* ignore */ }
+        }
+
+        async function markAllRead() {
+            try {
+                await fetch('/api/notifications/read-all', { method: 'PUT' });
+                document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+                refreshUnreadCount();
+            } catch (e) { /* ignore */ }
+        }
+
+        // ===== REMINDERS =====
+        async function loadReminders() {
+            try {
+                const r = await fetch('/api/reminders');
+                const data = await r.json();
+                renderReminders(data.reminders);
+            } catch (e) { console.error(e); }
+        }
+
+        function renderReminders(reminders) {
+            const container = document.getElementById('reminderRows');
+            if (!reminders || reminders.length === 0) {
+                container.innerHTML = '<p style="color:#999;text-align:center;">No reminders yet. Click "New Reminder" to add one.</p>';
+                return;
+            }
+
+            container.innerHTML = reminders.map(r => {
+                const icon = r.reminder_type === 'recurring' ? '🔁'
+                           : r.reminder_type === 'threshold' ? '📊' : '📅';
+                const metaParts = [`Type: ${r.reminder_type}`];
+                if (r.frequency) metaParts.push(`Frequency: ${r.frequency}`);
+                if (r.trigger_time) metaParts.push(`Time: ${r.trigger_time}`);
+                if (r.trigger_datetime) metaParts.push(`Trigger: ${new Date(r.trigger_datetime).toLocaleString()}`);
+                if (r.threshold_type) metaParts.push(`Threshold: ${r.threshold_type}`);
+                metaParts.push(`TZ: ${r.timezone}`);
+                const statusTag = r.is_active ? '🟢 Active' : '🔴 Inactive';
+                return `
+                    <div class="reminder-row ${r.is_active ? '' : 'inactive'}">
+                        <div class="reminder-icon">${icon}</div>
+                        <div class="reminder-body">
+                            <div class="reminder-title">${escHtml(r.title)}</div>
+                            <div class="reminder-meta">${metaParts.join(' · ')} · ${statusTag}</div>
+                            <div class="reminder-meta" style="margin-top:4px;color:#aaa;">${escHtml(r.message)}</div>
+                        </div>
+                        <div class="reminder-actions">
+                            <button class="btn-secondary" onclick="editReminder(${r.id})">✏️ Edit</button>
+                            <button class="btn-danger" onclick="deleteReminder(${r.id})">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ===== MODAL =====
+        function openReminderModal(id) {
+            document.getElementById('editReminderId').value = '';
+            document.getElementById('modalTitle').textContent = '⏰ New Reminder';
+            // Reset form
+            document.getElementById('rTitle').value = '';
+            document.getElementById('rMessage').value = '';
+            document.getElementById('rType').value = 'one_time';
+            document.getElementById('rTimezone').value = 'Asia/Kolkata';
+            document.getElementById('rTriggerDatetime').value = '';
+            document.getElementById('rFrequency').value = 'daily';
+            document.getElementById('rTriggerTime').value = '';
+            document.getElementById('rTriggerDay').value = '';
+            document.getElementById('rThresholdType').value = 'cash_flow';
+            document.getElementById('rThresholdValue').value = '';
+            document.getElementById('chIn_app').checked = true;
+            document.getElementById('chEmail').checked = false;
+            document.getElementById('chSms').checked = false;
+            onTypeChange();
+            onFrequencyChange();
+            document.getElementById('reminderModal').classList.add('open');
+        }
+
+        async function editReminder(id) {
+            try {
+                const r = await fetch(`/api/reminders/${id}`);
+                const data = await r.json();
+
+                document.getElementById('editReminderId').value = id;
+                document.getElementById('modalTitle').textContent = '✏️ Edit Reminder';
+                document.getElementById('rTitle').value = data.title || '';
+                document.getElementById('rMessage').value = data.message || '';
+                document.getElementById('rType').value = data.reminder_type || 'one_time';
+                document.getElementById('rTimezone').value = data.timezone || 'Asia/Kolkata';
+                document.getElementById('rTriggerDatetime').value = data.trigger_datetime
+                    ? data.trigger_datetime.slice(0, 16) : '';
+                document.getElementById('rFrequency').value = data.frequency || 'daily';
+                document.getElementById('rTriggerTime').value = data.trigger_time || '';
+                document.getElementById('rTriggerDay').value = data.trigger_day != null ? data.trigger_day : '';
+                document.getElementById('rThresholdType').value = data.threshold_type || 'cash_flow';
+                document.getElementById('rThresholdValue').value = data.threshold_value != null ? data.threshold_value : '';
+
+                const channels = JSON.parse(data.notification_channels || '["in_app"]');
+                document.getElementById('chIn_app').checked = channels.includes('in_app');
+                document.getElementById('chEmail').checked = channels.includes('email');
+                document.getElementById('chSms').checked = channels.includes('sms');
+
+                onTypeChange();
+                onFrequencyChange();
+                document.getElementById('reminderModal').classList.add('open');
+            } catch (e) {
+                alert('Failed to load reminder: ' + e.message);
+            }
+        }
+
+        function closeReminderModal() {
+            document.getElementById('reminderModal').classList.remove('open');
+        }
+
+        function onTypeChange() {
+            const type = document.getElementById('rType').value;
+            document.getElementById('fieldOneTime').classList.toggle('visible', type === 'one_time');
+            document.getElementById('fieldRecurring').classList.toggle('visible', type === 'recurring');
+            document.getElementById('fieldThreshold').classList.toggle('visible', type === 'threshold');
+        }
+
+        function onFrequencyChange() {
+            const freq = document.getElementById('rFrequency').value;
+            const dayField = document.getElementById('fieldTriggerDay');
+            const dayLabel = document.getElementById('triggerDayLabel');
+            if (freq === 'weekly') {
+                dayField.style.display = 'block';
+                dayLabel.textContent = 'Day of Week (0=Mon, 1=Tue … 6=Sun)';
+                document.getElementById('rTriggerDay').max = 6;
+            } else if (freq === 'monthly') {
+                dayField.style.display = 'block';
+                dayLabel.textContent = 'Day of Month (1–31)';
+                document.getElementById('rTriggerDay').min = 1;
+                document.getElementById('rTriggerDay').max = 31;
+            } else {
+                dayField.style.display = 'none';
+            }
+        }
+
+        async function saveReminder() {
+            const id = document.getElementById('editReminderId').value;
+            const type = document.getElementById('rType').value;
+            const channels = [];
+            if (document.getElementById('chIn_app').checked) channels.push('in_app');
+            if (document.getElementById('chEmail').checked) channels.push('email');
+            if (document.getElementById('chSms').checked) channels.push('sms');
+
+            const payload = {
+                title: document.getElementById('rTitle').value.trim(),
+                message: document.getElementById('rMessage').value.trim(),
+                reminder_type: type,
+                timezone: document.getElementById('rTimezone').value,
+                notification_channels: channels.length ? channels : ['in_app'],
+            };
+
+            if (!payload.title || !payload.message) {
+                alert('Title and message are required.');
+                return;
+            }
+
+            if (type === 'one_time') {
+                payload.trigger_datetime = document.getElementById('rTriggerDatetime').value;
+            } else if (type === 'recurring') {
+                payload.frequency = document.getElementById('rFrequency').value;
+                payload.trigger_time = document.getElementById('rTriggerTime').value;
+                const dayVal = document.getElementById('rTriggerDay').value;
+                if (dayVal !== '') payload.trigger_day = parseInt(dayVal, 10);
+            } else if (type === 'threshold') {
+                payload.threshold_type = document.getElementById('rThresholdType').value;
+                const tv = document.getElementById('rThresholdValue').value;
+                if (tv !== '') payload.threshold_value = parseFloat(tv);
+            }
+
+            try {
+                let response;
+                if (id) {
+                    response = await fetch(`/api/reminders/${id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } else {
+                    response = await fetch('/api/reminders', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                }
+
+                const data = await response.json();
+                if (data.success || data.id) {
+                    closeReminderModal();
+                    loadReminders();
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown error'));
+                }
+            } catch (e) {
+                alert('Failed to save reminder: ' + e.message);
+            }
+        }
+
+        async function deleteReminder(id) {
+            if (!confirm('Delete this reminder?')) return;
+            try {
+                const r = await fetch(`/api/reminders/${id}`, { method: 'DELETE' });
+                const data = await r.json();
+                if (data.success) {
+                    loadReminders();
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (e) {
+                alert('Failed to delete: ' + e.message);
+            }
+        }
+
+        // ===== UTILITIES =====
+        function escHtml(text) {
+            if (!text) return '';
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function timeAgo(isoStr) {
+            if (!isoStr) return '';
+            // Append 'Z' only if no timezone info present (stored as naive UTC without suffix)
+            const normalized = /Z$|[+\-]\d{2}:\d{2}$/.test(isoStr) ? isoStr : isoStr + 'Z';
+            const diff = Math.floor((Date.now() - new Date(normalized)) / 1000);
+            if (diff < 60) return `${diff}s ago`;
+            if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+            if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+            return `${Math.floor(diff/86400)}d ago`;
+        }
+
+        // Refresh dashboard and notification count every 30 seconds
+        setInterval(() => { loadDashboard(); refreshUnreadCount(); }, 30000);
     </script>
 </body>
 </html>
