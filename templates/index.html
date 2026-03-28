@@ -253,6 +253,24 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .todo-nav-btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 22px;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s;
+        }
+
+        .todo-nav-btn:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -260,6 +278,7 @@
         <header>
             <h1>🏪 CashFlow</h1>
             <p class="tagline">AI-Powered Smart Kirana Store Management</p>
+            <a href="/todo" class="todo-nav-btn">✅ To-Do List</a>
         </header>
 
         <div class="main-grid">

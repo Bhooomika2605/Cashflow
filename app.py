@@ -45,6 +45,13 @@ def init_db():
                   alert_type TEXT,
                   message TEXT,
                   status TEXT)''')
+
+    # To-Do table
+    c.execute('''CREATE TABLE IF NOT EXISTS todos
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  task TEXT NOT NULL,
+                  completed INTEGER DEFAULT 0,
+                  created_at TEXT)''')
     
     conn.commit()
     conn.close()
@@ -306,6 +313,63 @@ def dashboard():
         'inventory': inventory,
         'stats': stats
     })
+
+# ===== TO-DO ROUTES =====
+@app.route('/todo', methods=['GET', 'POST'])
+def todo():
+    """
+    Display and add To-Do tasks
+    """
+    conn = sqlite3.connect('kirana_store.db')
+    c = conn.cursor()
+
+    if request.method == 'POST':
+        task = request.form.get('task', '').strip()
+        if task:
+            created_at = datetime.now().isoformat()
+            c.execute('INSERT INTO todos (task, completed, created_at) VALUES (?, 0, ?)',
+                      (task, created_at))
+            conn.commit()
+
+    c.execute('SELECT id, task, completed, created_at FROM todos ORDER BY created_at DESC')
+    todos = [{'id': row[0], 'task': row[1], 'completed': bool(row[2]), 'created_at': row[3]}
+             for row in c.fetchall()]
+    conn.close()
+
+    return render_template('todo.html', todos=todos)
+
+
+@app.route('/todo/toggle/<int:todo_id>', methods=['POST'])
+def toggle_todo(todo_id):
+    """
+    Toggle the completed status of a To-Do task
+    """
+    conn = sqlite3.connect('kirana_store.db')
+    c = conn.cursor()
+    c.execute('UPDATE todos SET completed = 1 - completed WHERE id = ?', (todo_id,))
+    conn.commit()
+    affected = c.rowcount
+    conn.close()
+    if affected == 0:
+        return jsonify({'error': 'Task not found'}), 404
+    return ('', 204)
+
+
+@app.route('/todo/delete/<int:todo_id>', methods=['POST'])
+def delete_todo(todo_id):
+    """
+    Delete a To-Do task
+    """
+    conn = sqlite3.connect('kirana_store.db')
+    c = conn.cursor()
+    c.execute('DELETE FROM todos WHERE id = ?', (todo_id,))
+    conn.commit()
+    affected = c.rowcount
+    conn.close()
+    if affected == 0:
+        return jsonify({'error': 'Task not found'}), 404
+    return ('', 204)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
